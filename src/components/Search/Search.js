@@ -5,7 +5,7 @@ import {Form, Label, Input, Button, Title, City} from "./Search.styled";
 import CitiesList from "../CitiesList/CitiesList";
 
 const fetch = axios.create({
-    baseURL: 'https://localhost:3000'
+    baseURL: 'https://localhost:3001'
 });
 
 const schedule = async function fetchAPI () {
