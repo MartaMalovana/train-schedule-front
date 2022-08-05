@@ -55,13 +55,11 @@ export default function Search () {
     };
 
     const getOption = (e) => {
-        console.log(e.value);
         setFromStation(e.value);
     };
 
     const getSchedule = async (e) => {
         e.preventDefault();
-        console.log(fromStation);
         await schedule(fromStation);
     };
 
