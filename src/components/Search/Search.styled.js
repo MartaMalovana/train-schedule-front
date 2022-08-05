@@ -10,6 +10,7 @@ export  const Form = styled.form`
     justify-content: center; 
     width: auto;
     text-align: center;
+    margin-bottom: 20px;
 `;
 
 export  const Label = styled.p`
@@ -28,8 +29,7 @@ export  const Input = styled.input`
 `;
 
 export  const Button = styled.button`
-height: 30px;    
-border-radius: 50px;
+    height: 30px;    
     margin-left: 15px;
     padding-left: 10px;
     padding-right: 10px;

@@ -1,0 +1,7 @@
+#root {
+    height: 100vh;
+    background-image: url("images/train1.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding-top: 20px;
+}
