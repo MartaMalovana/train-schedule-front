@@ -1,41 +1,53 @@
 import { useState } from "react";
 import Select from 'react-select';
 import axios from "axios";
-import {Form, Label, Input, Button, Title, City} from "./Search.styled";
-import KyivSchedule from "../KyivSchedule/KyivSchedule";
-import LvivSchedule from "../LvivSchedule/LvivSchedule";
-import KrakowSchedule from "../KrakowSchedule/KrakowSchedule";
+import {Form, Label, Title} from "./Search.styled";
+import Schedule from "../Schedule/Schedule";
+import citiesFrom from "./cities.json";
 
 const fetch = axios.create({
     baseURL: 'http://localhost:3001'
 });
 
 export default function Search () {
-    const [fromStation, setFromStation] = useState("lviv");
-    const [lvivStation, setLvivStation] = useState(null);
-    const [kyivStation, setKyivStation] = useState(null);
-    const [krakowStation, setKrakowStation] = useState(null);
+    const [data, setData] = useState(null);
+    const [arrStations, setArrStations] = useState(null);
+    const [choosenStation, setChoosenStation] = useState(null);
 
-    const citiesFrom = [
-        {value: "lviv", label: "Lviv"},
-        {value: "kyiv", label: "Kyiv"},
-        {value: "krakow", label: "Krakow"}
-    ];
+    const getArrivalStations = function (data) {
+        const arrivalStations = Object.keys(data[0]).slice(1).map(el => {
+            let label = null;
+            switch(el) {
+                case "to_lviv": 
+                    label = "Львів";
+                    break;
+                case "to_kharkiv": 
+                    label = "Харків";
+                    break;
+                case "to_odesa": 
+                    label = "Одеса";
+                    break;
+                case "to_krakow": 
+                    label = "Краків";
+                    break;
+                case "to_uzhgorod": 
+                    label = "Ужгород";
+                    break;
+                case "to_kyiv":
+                    label = "Київ";
+                    break;
+            };
+            return {value: el, label: label};
+        });
+        setArrStations(arrivalStations);
+        return arrivalStations;
+    };
 
     const schedule = async function fetchAPI (station) {
         const response = await fetch.get(`/${station}`);
         if(response) {
-            switch (fromStation) {
-                case "lviv": 
-                    setLvivStation(response.data);
-                    break;
-                case "kyiv": 
-                    setKyivStation(response.data);
-                    break;
-                case "krakow": 
-                    setKrakowStation(response.data);
-                    break;
-            };
+            setData(response.data);
+            getArrivalStations(response.data);
         };
         return response ? response : console.log('Fetch error');
     };
@@ -54,13 +66,16 @@ export default function Search () {
         })
     };
 
-    const getOption = (e) => {
-        setFromStation(e.value);
+    const getOption = async e => {
+        await schedule(e.value);
     };
 
     const getSchedule = async (e) => {
-        e.preventDefault();
-        await schedule(fromStation);
+        e.preventDefault();   
+    };
+
+    const getStation = e => {
+        setChoosenStation(e.value);
     };
 
     return (
@@ -68,14 +83,21 @@ export default function Search () {
         <Title>Розклад руху потягів</Title>
         <Form name="form" type="submit" onSubmit={getSchedule}>
             <Label>від станції</Label>
-            <Select name="cityFrom" styles={customStyles} options={citiesFrom} defaultValue={citiesFrom[0]} onChange={e=>getOption(e)}/>
-            {/* <Label>до станції </Label>
-            <Select name="city" styles={customStyles} options={citiesTo} defaultValue={cities[0]}/> */}
-            <Button type="submit">Знайти</Button>
+            <Select name="cityFrom" 
+                styles={customStyles} 
+                options={citiesFrom} 
+                defaultValue={citiesFrom[0]} 
+                onChange={e=>getOption(e)}
+            />
+            {arrStations && <Label>до станції </Label>}
+            {arrStations && <Select name="city" 
+                styles={customStyles} 
+                options={arrStations} 
+                // defaultValue={arrStations[0]} 
+                onChange={e=>getStation(e)}
+            />}
         </Form>
-        {fromStation === "lviv" && lvivStation && <LvivSchedule data={lvivStation}/>}
-        {fromStation === "kyiv" && kyivStation && <KyivSchedule data={kyivStation}/>}
-        {fromStation === "krakow" && krakowStation && <KrakowSchedule data={krakowStation}/>}
+        {choosenStation && <Schedule data={data} station={choosenStation}/>}
         </>
     );
 };

@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 
 export const List = styled.ul`
+    // display: flex;
+    // justify-content: center;
     margin: 0; 
     padding: 10px 10px 10px 10px;
     border: 1px solid black;
@@ -10,6 +12,7 @@ export const List = styled.ul`
 
 export const Element = styled.li`
     display: flex;
+    justify-content: center;
     margin: 0 0 5px 0;
 `;
 
@@ -17,7 +20,7 @@ export const Date = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: calc((100% - 40px)/4);
+    width: calc((100% - 40px)/6);
     border-radius: 10px;
     border: 1px solid white;
     margin: 0 5px 0 0;
