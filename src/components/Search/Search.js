@@ -55,7 +55,7 @@ export default function Search () {
     const customStyles = {
         option: (provided, state) => ({
             ...provided,
-            width: "200px",
+            width: "200px"
         }),
         control: () => ({
             width: "200px",

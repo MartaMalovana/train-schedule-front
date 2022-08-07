@@ -5,12 +5,18 @@ export  const Title = styled.h2`
 `;
 
 export  const Form = styled.form`
-    display: flex; 
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center; 
+    justify-content: center;     
     width: auto;
     text-align: center;
-    margin-bottom: 20px;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    @media screen and (min-width: 390px) {
+          flex-direction: row;
+          margin-top: 0;
+    };
 `;
 
 export  const Label = styled.p`

@@ -3,5 +3,11 @@
     background-image: url("images/train1.jpg");
     background-size: contain;
     background-repeat: no-repeat;
-    padding-top: 20px;
+    padding-top: 4px;
+};
+
+@media screen and (min-width: 390px) {
+    #root {
+        padding-top: 20px;
+    }
 }
